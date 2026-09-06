@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { useRef, useState } from 'react';
-import ChatInput, { type ChatFormData } from './ChatImput';
+import { useRef, useState, type FormEvent } from 'react';
 import type { Message } from './ChatMessages';
 import ChatMessages from './ChatMessages';
 import TypingIndicator from './TypingIndicator';
@@ -15,6 +14,39 @@ notificationAudio.volume = 0.2;
 
 type ChatResponse = {
    message: string;
+};
+
+type ChatFormData = {
+   prompt: string;
+};
+
+const ChatInput = ({
+   onSubmit,
+}: {
+   onSubmit: (data: ChatFormData) => void;
+}) => {
+   const [prompt, setPrompt] = useState('');
+
+   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const value = prompt.trim();
+      if (!value) return;
+
+      onSubmit({ prompt: value });
+      setPrompt('');
+   };
+
+   return (
+      <form onSubmit={handleSubmit} className="flex gap-2">
+         <input
+            value={prompt}
+            onChange={(event) => setPrompt(event.target.value)}
+            className="flex-1"
+            placeholder="Ask something..."
+         />
+         <button type="submit">Send</button>
+      </form>
+   );
 };
 
 const ChatBot = () => {

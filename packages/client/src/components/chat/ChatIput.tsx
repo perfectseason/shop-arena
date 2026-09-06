@@ -1,7 +1,6 @@
 import type { KeyboardEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaArrowUp } from 'react-icons/fa';
-import { Button } from '../ui/button';
 
 export type ChatFormData = {
    prompt: string;
@@ -42,9 +41,13 @@ const ChatInput = ({ onSubmit }: Props) => {
             placeholder="Ask anything"
             maxLength={1000}
          />
-         <Button disabled={!formState.isValid} className="rounded-full w-9 h-9">
+         <button
+            type="submit"
+            disabled={!formState.isValid}
+            className="rounded-full w-9 h-9"
+         >
             <FaArrowUp />
-         </Button>
+         </button>
       </form>
    );
 };

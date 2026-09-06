@@ -1,7 +1,28 @@
 import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '../../lib/utils';
+function cn(...inputs: Array<string | false | null | undefined>) {
+   return inputs.filter(Boolean).join(' ');
+}
+
+type VariantConfig = {
+   variants: Record<string, Record<string, string>>;
+   defaultVariants?: Record<string, string>;
+};
+
+type VariantProps<T> = T extends (props?: infer P) => string ? P : never;
+
+function cva<const T extends VariantConfig>(base: string, config: T) {
+   return (props: Partial<{ [K in keyof T['variants']]: keyof T['variants'][K] }> & {
+      className?: string;
+   } = {}) => {
+      const classes = Object.entries(config.variants).map(([name, values]) => {
+         const value = props[name as keyof typeof props] ?? config.defaultVariants?.[name];
+         return value == null ? '' : values[String(value)] ?? '';
+      });
+
+      return cn(base, ...classes, props.className);
+   };
+}
 
 const buttonVariants = cva(
    "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",

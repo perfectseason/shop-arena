@@ -1,6 +1,11 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import ChatBot from '../chat/ChatBot';
-import { Button } from './button';
+import { Button } from '../ui/button';
+
+const ChatBot = () => (
+   <div className="flex h-full items-center justify-center rounded-md bg-gray-50 text-sm text-gray-500">
+      Chat support is currently unavailable.
+   </div>
+);
 
 type Visitor = {
    name: string;

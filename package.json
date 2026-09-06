@@ -1,15 +1,20 @@
 {
-  "name": "shop-arena",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+   "name": "shop-arena",
+   "module": "index.ts",
+   "type": "module",
+   "private": true,
+   "devDependencies": {
+      "@types/bun": "latest",
+      "prettier": "^3.9.6"
+   },
+   "scripts": {
+      "dev": "bun --watch run packages/*/dev.ts",
+      "format": "prettier --write ."
+   },
+   "peerDependencies": {
+      "typescript": "^5"
+   },
+   "workspaces": [
+      "packages/*"
+   ]
 }

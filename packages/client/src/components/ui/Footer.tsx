@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 const footerLinks = [
    { label: 'Home', to: '/' },
    { label: 'About', to: '/about' },
-   { label: 'Properties', to: '/properties' },
-   { label: 'Contact', to: '/contact' },
 ];
 
 const Footer = () => {
@@ -13,11 +11,10 @@ const Footer = () => {
          <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
             <div>
                <h2 className="text-xl font-bold uppercase tracking-wide">
-                  Perfect Homes
+                  Shop Arena
                </h2>
                <p className="mt-3 max-w-md text-sm leading-6 text-slate-300">
-                  Simple, trusted real estate support for finding, listing, and
-                  choosing homes in the right locations.
+                  Simple, trusted products for your home. Shop Arena is committed to providing high-quality at affordable rate
                </p>
             </div>
 
@@ -44,10 +41,10 @@ const Footer = () => {
                </h3>
                <div className="mt-4 grid gap-2 text-sm text-slate-300">
                   <a
-                     href="mailto:support@perfecthomes.com"
+                     href="mailto:support@shop-arena.com"
                      className="transition hover:text-white"
                   >
-                     support@perfecthomes.com
+                     support@shop-arena.com
                   </a>
                   <a
                      href="tel:+2348106978741"

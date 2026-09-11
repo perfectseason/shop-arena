@@ -1,24 +1,40 @@
-import React from 'react';
+type CarouselSlide = {
+   image: string;
+   alt: string;
+};
 
-const Carousel = () => {
+type CarouselProps = {
+   slides: readonly CarouselSlide[];
+};
+
+const Carousel = ({ slides }: CarouselProps) => {
+   if (!slides.length) return null;
+
    return (
-      <div>
-         <div id="carouselExample" className="carousel slide">
+      <div className="overflow-hidden rounded-xl shadow-lg">
+         <div
+            id="product-carousel"
+            className="carousel slide"
+            data-bs-ride="carousel"
+         >
             <div className="carousel-inner">
-               <div className="carousel-item active">
-                  <img src="..." className="d-block w-100" alt="..." />
-               </div>
-               <div className="carousel-item">
-                  <img src="..." className="d-block w-100" alt="..." />
-               </div>
-               <div className="carousel-item">
-                  <img src="..." className="d-block w-100" alt="..." />
-               </div>
+               {slides.map((slide, index) => (
+                  <div
+                     key={slide.image}
+                     className={`carousel-item ${index === 0 ? 'active' : ''}`}
+                  >
+                     <img
+                        src={slide.image}
+                        className="d-block h-[280px] w-100 object-cover sm:h-[380px]"
+                        alt={slide.alt}
+                     />
+                  </div>
+               ))}
             </div>
             <button
                className="carousel-control-prev"
                type="button"
-               data-bs-target="#carouselExample"
+               data-bs-target="#product-carousel"
                data-bs-slide="prev"
             >
                <span
@@ -30,7 +46,7 @@ const Carousel = () => {
             <button
                className="carousel-control-next"
                type="button"
-               data-bs-target="#carouselExample"
+               data-bs-target="#product-carousel"
                data-bs-slide="next"
             >
                <span

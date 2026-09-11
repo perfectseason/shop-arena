@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from .models import ChatbotClient
+from .serializers import ChatbotClientSerializer
+
+
+class ChatbotClientCreateView(generics.CreateAPIView):
+    queryset = ChatbotClient.objects.all()
+    serializer_class = ChatbotClientSerializer

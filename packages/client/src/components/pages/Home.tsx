@@ -1,7 +1,8 @@
 import { useState, type CSSProperties, type SubmitEvent } from 'react';
 import useCart from '../../hooks/useCart';
 import { Button } from '../ui/button';
-import ContactForm from '../ui/forms/contactForm';
+import ChatBotForm from '../ui/ChatBotForm';
+import Carousel from '../ui/Carousel';
 
 type Product = {
    id: number;
@@ -13,20 +14,20 @@ type Product = {
 const featuredProducts: Product[] = [
    {
       id: 1,
-      image: '/images/product1.jpg',
+      image: '/images/watches.jpg',
       name: 'Smart Watch',
       price: '$120',
    },
    {
       id: 2,
-      image: '/images/product2.jpg',
-      name: 'Smart Watch',
+      image: '/images/watches1.jpg',
+      name: 'Classic Watch',
       price: '$85',
    },
    {
       id: 3,
-      image: '/images/product3.jpg',
-      name: 'Smart Watch',
+      image: '/images/watches2.jpg',
+      name: 'Premium Watch',
       price: '$450',
    },
 ];
@@ -34,25 +35,25 @@ const featuredProducts: Product[] = [
 const electronics: Product[] = [
    {
       id: 4,
-      image: '/images/product4.jpg',
-      name: 'Iphone',
+      image: '/images/ifone.jpg',
+      name: 'iPhone',
       price: '$850',
    },
    {
       id: 5,
-      image: '/images/product5.jpg',
-      name: 'Iphone Pro',
+      image: '/images/ifone2.jpg',
+      name: 'iPhone Pro',
       price: '$920',
    },
    {
       id: 6,
-      image: '/images/product6.jpg',
-      name: 'Iphone Mini',
+      image: '/images/ifone3.jpg',
+      name: 'iPhone Mini',
       price: '$550',
    },
    {
       id: 7,
-      image: '/images/product7.jpg',
+      image: '/images/tablet.jpg',
       name: 'Tablet',
       price: '$320',
    },
@@ -61,32 +62,32 @@ const electronics: Product[] = [
 const fashion: Product[] = [
    {
       id: 8,
-      image: '/images/product8.jpg',
-      name: 'Sun glasses',
+      image: '/images/ladies shoe.jpg',
+      name: 'Ladies Shoes',
       price: '$95',
    },
    {
       id: 9,
-      image: '/images/product9.jpg',
-      name: 'Sun glasses',
+      image: '/images/ladies shoe1.jpg',
+      name: 'Casual Shoes',
       price: '$130',
    },
    {
       id: 10,
-      image: '/images/product10.jpg',
-      name: 'Watch',
+      image: '/images/ladies shoe2.jpg',
+      name: 'Elegant Shoes',
       price: '$180',
    },
    {
       id: 11,
-      image: '/images/product11.jpg',
-      name: 'Sun glasses',
+      image: '/images/ladies shoe3.jpg',
+      name: 'Everyday Shoes',
       price: '$110',
    },
    {
       id: 12,
-      image: '/images/product12.jpg',
-      name: 'Sunglasses',
+      image: '/images/ladies shoe4.jpg',
+      name: 'Comfort Shoes',
       price: '$65',
    },
 ];
@@ -94,23 +95,29 @@ const fashion: Product[] = [
 const homeCollection: Product[] = [
    {
       id: 13,
-      image: '/images/product13.jpg',
-      name: 'Bag',
+      image: '/images/bag.jpg',
+      name: 'Leather Bag',
       price: '$440',
    },
    {
       id: 14,
-      image: '/images/product14.jpg',
-      name: 'Travelers Bag',
+      image: '/images/bag1.jpg',
+      name: 'Traveller Bag',
       price: '$570',
    },
    {
       id: 15,
-      image: '/images/product15.jpg',
+      image: '/images/bag2.jpg',
       name: 'Ladies Bag',
       price: '$320',
    },
 ];
+
+const carouselSlides = [
+   { image: '/images/fone.jpg', alt: 'Latest smartphone collection' },
+   { image: '/images/laptop.jpg', alt: 'Laptop collection' },
+   { image: '/images/camera.jpg', alt: 'Camera collection' },
+] as const;
 
 function ProductCard({
    product,
@@ -161,7 +168,7 @@ export default function Home() {
       'Hello! How can I help you?'
    );
    const heroStyle: CSSProperties = {
-      backgroundImage: "url('/images/Hero.jpg')",
+      backgroundImage: "url('/images/fone.jpg')",
    };
 
    const handleAddToCart = async (product: Product) => {
@@ -225,6 +232,15 @@ export default function Home() {
             <div className="mt-5 mb-5 w-full text-center text-xl font-bold uppercase tracking-wide text-slate-950 sm:text-2xl">
                THE LOWEST PRICE EVER
             </div>
+         </section>
+         <div>
+            <p className='text-center text-2xl font-bold uppercase tracking-wide text-slate-950 sm:text-3xl mb-4 mt-4'>
+               YOUR DREAM GADGETS
+            </p>
+         </div>
+         {/* Carousel */}
+         <section className="relative min-h-screen w-full overflow-hidden px-4 py-8 sm:px-6 md:px-8 lg:px-10">
+            <Carousel slides={carouselSlides} />
          </section>
          {/* FEATURED PRODUCTS - 3 COLUMNS */}
          <section
@@ -341,6 +357,9 @@ export default function Home() {
                </p>
             )}
          </section>
+         <div className='mb-5 mt-5 w-full text-center text-xl font-bold uppercase tracking-wide text-slate-950 sm:text-2xl'>
+              <ChatBotForm />
+         </div>
       </div>
    );
 }

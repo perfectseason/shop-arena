@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useFormSubmit from '/../../hooks/useFormSubmit';
+import useFormSubmit from '../../hooks/useFormSubmit';
 
 const ContactForm = () => {
    const { submitContact, isSubmitting, success, error } = useFormSubmit();

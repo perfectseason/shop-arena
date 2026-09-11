@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import logo from '../../components/ui/logo.jpg';
+import logo from '../../assets/logo.jpg';
 
 const navLinks = [
    { label: 'Home', to: '/' },
-   { label: 'About', to: '/about' },
-   { label: 'Properties', to: '/properties' },
-   { label: 'Contact', to: '/contact' },
+   { label: 'About', to: '/about' }
 ];
 
-const Navbar = () => {
+const NavBar = () => {
    const [isOpen, setIsOpen] = useState(false);
 
    const navButtonClass = ({ isActive }: { isActive: boolean }) =>
@@ -25,7 +23,7 @@ const Navbar = () => {
          <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
             <Link
                to="/"
-               aria-label="Perfect Homes home"
+               aria-label="Shop Arena"
                className="flex shrink-0 items-center"
                onClick={() => setIsOpen(false)}
             >
@@ -41,7 +39,7 @@ const Navbar = () => {
                className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-center text-base font-bold uppercase tracking-wide text-slate-950 sm:text-xl"
                onClick={() => setIsOpen(false)}
             >
-               Perfect Homes
+               Shop Arena
             </Link>
 
             <div className="hidden items-center gap-2 md:flex">
@@ -91,4 +89,4 @@ const Navbar = () => {
    );
 };
 
-export default Navbar;
+export default NavBar;

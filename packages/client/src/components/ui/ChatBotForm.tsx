@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import chat from '../../assets/chat.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -85,8 +86,19 @@ const ChatBotForm = () => {
    };
 
    return (
+    <>
+   <h2 className="text-center bg-emerald-50 max-w-md mx-auto rounded-xl text-2xl font-bold uppercase tracking-wide text-slate-950 sm:text-3xl mb-3 mt-4">
+        TALK TO OUR CUSTOMER<br></br> SERVICE AGENT
+   </h2>
+    <div className="flex justify-center mb-4">
+            <img
+               src={chat}
+               alt="Chat"
+               className="h-30 w-30 rounded-full max-w-xs h-auto"
+            />
+         </div>
       <form
-         className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md border-4 border-gray-200"
+         className="max-w-md mx-auto flex min-h-[350px] w-full min-w-0 flex-col rounded-xl bg-gray-900 p-6 text-white shadow-lg"
          onSubmit={handleSubmit(onSubmit)}
       >
          {/* Name */}
@@ -102,7 +114,7 @@ const ChatBotForm = () => {
                {...register('name')}
                id="name"
                type="text"
-               className="w-full border rounded-md p-2"
+               className="w-full border rounded-lg p-2"
                placeholder="Enter your name"
             />
 
@@ -126,7 +138,7 @@ const ChatBotForm = () => {
                {...register('email')}
                id="email"
                type="email"
-               className="w-full border rounded-md p-2"
+               className="w-full border rounded-lg p-2"
                placeholder="Enter your email"
             />
 
@@ -150,7 +162,7 @@ const ChatBotForm = () => {
                {...register('phone')}
                id="phone"
                type="tel"
-               className="w-full border rounded-md p-2"
+               className="w-full border rounded-lg p-2"
                placeholder="Enter your phone number"
             />
 
@@ -172,11 +184,12 @@ const ChatBotForm = () => {
          <button
             type="submit"
             disabled={!isValid || isSubmitting}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-emerald-500 text-white py-2 px-4 rounded-xl hover:bg-emerald-600 disabled:opacity-70 disabled:cursor-not-allowed"
          >
             {isSubmitting ? 'Submitting...' : 'Submit'}
          </button>
       </form>
+    </>
    );
 };
 

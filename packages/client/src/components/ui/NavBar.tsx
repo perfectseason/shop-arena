@@ -19,18 +19,18 @@ const NavBar = () => {
       ].join(' ');
 
    return (
-      <header className="fixed left-0 top-0 z-50 w-full border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
+      <header className="fixed left-0 top-0 z-50 w-full border-amber-400 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
          <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
             <Link
                to="/"
                aria-label="Shop Arena"
-               className="flex shrink-0 items-center"
+               className="flex shrink-0 items-center text-border-amber-400"
                onClick={() => setIsOpen(false)}
             >
                <img
                   src={logo}
                   alt="Perfect Homes logo"
-                  className="h-9 w-9 rounded-full border border-slate-200 object-cover shadow-sm"
+                  className="h-9 w-9 rounded-full border border-amber-400 object-cover shadow-sm"
                />
             </Link>
 

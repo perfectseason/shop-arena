@@ -1,3 +1,5 @@
+import ChatBot from "./ChatBot";
+
 const About = () => {
    return (
       <>
@@ -34,6 +36,9 @@ const About = () => {
                      </p>
                   </div>
                </div>
+            </div>
+            <div>
+               <ChatBot />
             </div>
          </section>
       </>

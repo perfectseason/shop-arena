@@ -46,7 +46,7 @@ export default function ChatGateway() {
 
    if (visitor) {
       return (
-         <section className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+         <section className="max-w-md mx-auto flex min-h-[350px] w-full min-w-0 flex-col rounded-xl bg-gray-900 p-6 text-white shadow-lg">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                <div>
                   <h2 className="text-lg font-semibold text-gray-800">

@@ -11,26 +11,29 @@ const Carousel = ({ slides }: CarouselProps) => {
    if (!slides.length) return null;
 
    return (
-      <div className="overflow-hidden rounded-xl shadow-lg">
+      <div className="h-screen w-full overflow-hidden rounded-xl shadow-lg">
          <div
             id="product-carousel"
-            className="carousel slide"
+            className="carousel slide h-full w-full"
             data-bs-ride="carousel"
          >
-            <div className="carousel-inner">
+            <div className="carousel-inner h-full w-full">
                {slides.map((slide, index) => (
                   <div
                      key={slide.image}
-                     className={`carousel-item ${index === 0 ? 'active' : ''}`}
+                     className={`carousel-item h-full w-full ${
+                        index === 0 ? 'active' : ''
+                     }`}
                   >
                      <img
                         src={slide.image}
-                        className="d-block h-[280px] w-100 object-cover sm:h-[380px]"
+                        className="d-block h-screen w-100 object-cover object-center"
                         alt={slide.alt}
                      />
                   </div>
                ))}
             </div>
+
             <button
                className="carousel-control-prev"
                type="button"
@@ -43,6 +46,7 @@ const Carousel = ({ slides }: CarouselProps) => {
                ></span>
                <span className="visually-hidden">Previous</span>
             </button>
+
             <button
                className="carousel-control-next"
                type="button"

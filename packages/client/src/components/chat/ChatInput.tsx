@@ -11,7 +11,8 @@ type Props = {
 };
 
 const ChatInput = ({ onSubmit }: Props) => {
-   const { register, handleSubmit, reset, formState } = useForm<ChatFormData>();
+   const { register, handleSubmit, reset, formState } =
+      useForm<ChatFormData>();
 
    const submit = handleSubmit((data) => {
       reset({ prompt: '' });
@@ -29,7 +30,7 @@ const ChatInput = ({ onSubmit }: Props) => {
       <form
          onSubmit={submit}
          onKeyDown={handleKeyDown}
-         className="flex flex-col gap-2 items-end border-2 p-4 rounded-3xl"
+         className="flex flex-col items-end gap-2 rounded-3xl border-2 p-4"
       >
          <textarea
             {...register('prompt', {
@@ -37,16 +38,17 @@ const ChatInput = ({ onSubmit }: Props) => {
                validate: (data) => data.trim().length > 0,
             })}
             autoFocus
-            className="w-full border-0 focus:outline-0 resize-none"
+            className="w-full resize-none border-0 focus:outline-0"
             placeholder="Ask anything"
             maxLength={1000}
          />
+
          <button
             type="submit"
             disabled={!formState.isValid}
-            className="rounded-full w-9 h-9"
+            className="h-9 w-9 rounded-full max-[445px]:h-[18px] max-[445px]:w-[18px]"
          >
-            <FaArrowUp />
+            <FaArrowUp className="h-full w-full" />
          </button>
       </form>
    );

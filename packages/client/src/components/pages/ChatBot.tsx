@@ -1,11 +1,11 @@
-import ChatGateway from '../ui/ChatGateway'
+import ChatBot from '../chat/ChatBot';
 
-const ChatBot = () => {
+const ChatBotPage = () => {
   return (
     <div>
-        <ChatGateway />
+        <ChatBot />
     </div>
   )
 }
 
-export default ChatBot
+export default ChatBotPage

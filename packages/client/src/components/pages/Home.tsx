@@ -239,16 +239,16 @@ export default function Home() {
             </p>
          </div>
          {/* Carousel */}
-         <section className="relative min-h-screen w-full overflow-hidden px-4 py-8 sm:px-6 md:px-8 lg:px-10">
-            <Carousel slides={carouselSlides} />
-         </section>
+           <section className="relative min-h-screen w-full overflow-hidden px-0 py-0 sm:px-0 md:px-0 lg:px-0">
+               <Carousel slides={carouselSlides} />
+           </section>
          {/* FEATURED PRODUCTS - 3 COLUMNS */}
          <section
             id="featured-products"
-            className="w-full bg-stone-50 px-4 py-8 sm:px-6 md:px-8 lg:px-10"
+            className="w-full bg-stone-50 px-2 py-8 sm:px-6 md:px-4 lg:px-5"
          >
             <div>
-               <h2 className="mb-8 text-center text-2xl font-bold text-yellow-200 sm:text-3xl dark:text-sky-200">
+               <h2 className="mb-4 text-center text-2xl font-bold text-yellow-200 sm:text-3xl dark:text-sky-200">
                   FEATURED PRODUCTS
                </h2>
             </div>
@@ -298,64 +298,7 @@ export default function Home() {
          </section>
          {/* HOME COLLECTION - 3 PRODUCTS + CHATBOT */}
          <section className="w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10">
-            <h2 className="mb-6 text-2xl font-bold sm:text-3xl">
-               Home Collection
-            </h2>
-
-            <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-               {homeCollection.map((product) => (
-                  <div key={product.image} className="w-full min-w-0">
-                     <ProductCard
-                        product={product}
-                        onAddToCart={handleAddToCart}
-                        isAdding={isLoading}
-                     />
-                  </div>
-               ))}
-
-               {/* CHATBOT */}
-               <div className="flex min-h-[350px] w-full min-w-0 flex-col rounded-xl bg-gray-900 p-6 text-white shadow-lg">
-                  <h3 className="text-xl font-bold">Shopping Assistant</h3>
-
-                  <p className="mt-2 text-sm text-gray-300">
-                     Ask about products, prices, orders, or recommendations.
-                  </p>
-
-                  <div className="mt-auto">
-                     <div className="mb-3 rounded-lg bg-gray-800 p-3 text-sm">
-                        {chatResponse}
-                     </div>
-
-                     <form className="flex gap-2" onSubmit={handleChatSubmit}>
-                        <input
-                           type="text"
-                           placeholder="Ask something..."
-                           value={chatMessage}
-                           onChange={(event) =>
-                              setChatMessage(event.target.value)
-                           }
-                           className="min-w-0 flex-1 rounded-lg px-3 py-2 text-black outline-none"
-                        />
-
-                        <Button
-                           type="submit"
-                           variant="secondary"
-                           className="shrink-0 bg-white px-4 py-2 font-semibold text-black hover:bg-gray-200"
-                        >
-                           Send
-                        </Button>
-                     </form>
-                  </div>
-               </div>
-            </div>
-            {error && (
-               <p
-                  className="mt-4 text-sm font-medium text-red-600"
-                  role="alert"
-               >
-                  {error}
-               </p>
-            )}
+            
          </section>
          <div className='mb-5 mt-5 w-full text-center text-xl font-bold uppercase tracking-wide text-slate-950 sm:text-2xl'>
               <ChatBotForm />

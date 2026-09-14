@@ -1,42 +1,48 @@
 from rest_framework import serializers
 
-from .models import ChatbotClient
+from chatbot.models import ChatConversation, ChatMessage
 
 
-class ChatbotClientSerializer(serializers.ModelSerializer):
+# chatbot
+class ChatMessageSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = ChatbotClient
+        model = ChatMessage
         fields = [
-            'id',
-            'name',
-            'email',
-            'phone',
-            'created_at',
-            'updated_at',
+            "id",
+            "role",
+            "content",
+            "created_at",
         ]
 
         read_only_fields = [
-            'id',
-            'created_at',
-            'updated_at',
+            "id",
+            "created_at",
         ]
 
-    def validate_name(self, value):
-        value = value.strip()
 
-        if len(value) < 3:
-            raise serializers.ValidationError(
-                'Name must be at least 3 characters long.'
-            )
+class ChatConversationSerializer(serializers.ModelSerializer):
 
-        return value
+    messages = ChatMessageSerializer(
+        many=True,
+        read_only=True,
+    )
 
-    def validate_phone(self, value):
-        value = value.strip()
+    class Meta:
+        model = ChatConversation
 
-        if len(value) < 10:
-            raise serializers.ValidationError(
-                'Phone number must be at least 10 characters long.'
-            )
+        fields = [
+            "id",
+            "conversation_id",
+            "messages",
+            "created_at",
+            "updated_at",
+        ]
 
-        return value
+        read_only_fields = [
+            "id",
+            "conversation_id",
+            "messages",
+            "created_at",
+            "updated_at",
+        ]

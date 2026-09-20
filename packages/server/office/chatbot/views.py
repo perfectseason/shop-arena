@@ -7,13 +7,13 @@ from rest_framework.views import APIView
 from .models import ChatConversation, ChatMessage
 from .services.chat_service import process_chat_message
 
-# chatbot
+
+# Chatbot
 
 
 class ChatView(APIView):
 
     def post(self, request):
-
         prompt = str(
             request.data.get(
                 "prompt",
@@ -28,7 +28,7 @@ class ChatView(APIView):
         if not prompt:
             return Response(
                 {
-                    "message": "Please enter a message."
+                    "message": "Please enter a message.",
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -36,7 +36,7 @@ class ChatView(APIView):
         if not conversation_id:
             return Response(
                 {
-                    "message": "Conversation ID is required."
+                    "message": "Conversation ID is required.",
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -53,7 +53,7 @@ class ChatView(APIView):
         ):
             return Response(
                 {
-                    "message": "Invalid conversation ID."
+                    "message": "Invalid conversation ID.",
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -87,7 +87,7 @@ class ChatView(APIView):
                         "I'm sorry, I couldn't process "
                         "your request right now. "
                         "Please try again."
-                    )
+                    ),
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
@@ -113,7 +113,6 @@ class ChatConversationDetailView(APIView):
         _request,
         conversation_id,
     ):
-
         try:
             conversation_uuid = uuid.UUID(
                 str(conversation_id)
@@ -126,7 +125,7 @@ class ChatConversationDetailView(APIView):
         ):
             return Response(
                 {
-                    "detail": "Invalid conversation ID."
+                    "detail": "Invalid conversation ID.",
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -140,7 +139,7 @@ class ChatConversationDetailView(APIView):
         if conversation is None:
             return Response(
                 {
-                    "detail": "Conversation not found."
+                    "detail": "Conversation not found.",
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -164,6 +163,7 @@ class ChatConversationDetailView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
 
 
 # import uuid

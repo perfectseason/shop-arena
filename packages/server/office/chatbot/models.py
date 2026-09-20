@@ -1,8 +1,11 @@
 import uuid
+
 from django.db import models
 
-# chatbot
 
+# ============================================================
+# CHAT CONVERSATION
+# ============================================================
 
 class ChatConversation(models.Model):
     conversation_id = models.UUIDField(
@@ -28,6 +31,10 @@ class ChatConversation(models.Model):
     def __str__(self):
         return str(self.conversation_id)
 
+
+# ============================================================
+# CHAT MESSAGE
+# ============================================================
 
 class ChatMessage(models.Model):
 
@@ -61,4 +68,3 @@ class ChatMessage(models.Model):
     def __str__(self):
         content = str(self.content or "")
         return f"{self.role}: {content[:50]}"
-

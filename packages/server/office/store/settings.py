@@ -10,9 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from dotenv import load_dotenv
 import rest_framework
+from datetime import timedelta
+from celery.schedules import crontab
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -137,7 +140,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Email
@@ -171,3 +177,98 @@ DJOSER = {
 
 
 AUTH_USER_MODEL = 'core.User'
+
+
+MAILERS = {
+    "default": {
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "OPTIONS": {
+            "host": "smtp.gmail.com",
+            "port": 587,
+            "use_tls": True,
+            "username": os.getenv("EMAIL_HOST_USER"),
+            "password": os.getenv("EMAIL_HOST_PASSWORD"),
+            "timeout": 10,
+        },
+    },
+}
+
+DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+
+ADMINS = [
+    ('mOSH', 'admin@moshby.com')
+]
+
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+CELERY_BEAT_SCHEDULE = {
+    'notify_customers': {
+        'task': 'store.tasks.notify_ccustomers',
+        'schedule': crontab(minute='*/15'),
+        'args': ['Hello World'],
+        'kwargs': {}
+    }
+}
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} ({levelname}) - {name} - {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "general.log",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "": {
+            "handlers": ["console", "file"],
+            "level": os.environ.get("DJANGO_LOG_LEVEL", "INFO"),
+        },
+    },
+}
+
+
+
+
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existimg_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StramHandler'
+#         },
+#         'file': {
+#             'class': 'logging.TileHandler',
+#             "stream": "ext://sys.stdout",
+#             'filename': 'general.log',
+#             'formatter': 'verbose'
+#         }
+#     },
+#     'Loggers': {
+#         '': {
+#             'handlers': ['console', 'file'],
+#             'Level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
+#         }
+#     },
+#     'formatters': {
+#         'verbose': {
+#             'format': '{asctime} ({levelname}) - {name} -{message}',
+#             'style': '{'
+#         }
+#     }
+# }

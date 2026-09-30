@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.urls import path, include
 
 from rest_framework_nested import routers
 
@@ -80,6 +81,12 @@ products_router.register(
     basename="product-reviews",
 )
 
+products_router.register(
+    "images",
+    views.ProductImageViewSet,
+    basename="product-images",
+)
+
 
 # ============================================================
 # URL PATTERNS
@@ -90,13 +97,3 @@ urlpatterns = (
     + products_router.urls
     + carts_router.urls
 )
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path( 'clients/', ChatbotClientCreateView.as_view(),
-#         name='chatbot-client-create',),
-#     path('products/', views.ProductList.as_view()),
-#     path('products/<int:pk/>', views.ProductDetail.as_view()),
-#     path('collections/', views.CollectionList.as_view()),
-#     path('collections/<int:pk>/', views.CollectionDetail, name='collection-deatail'),
-# ]

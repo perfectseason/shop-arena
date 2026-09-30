@@ -39,6 +39,16 @@ class ChatbotClientAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
 
+class ProductImageInline(admin.TabularInline):
+    model = models.ProductImage
+    readonly_fields = ['thumbnail']
+
+    def thumbnail(self, instance):
+        if instance.image.name != '':
+            return format_html(f'<img src="{instance.image.url}" /> class="thumbnail')
+        return ''
+
+
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     autocomplete_fields = ['collection']
@@ -53,7 +63,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     prepopulated_fields = {'slug': ['title']}
     actions = ['clear_inventory']
-
+    inlines = [ProductImageInline]
     list_display = [
         'title',
         'unit_price',
@@ -81,6 +91,11 @@ class ProductAdmin(admin.ModelAdmin):
             f'{updated_count} products were successfully updated.',
             messages.ERROR,
         )
+
+        class Media:
+            css = {
+                'all': ['api/styles.css']
+            }
 
     @admin.display(ordering='collection')
     def collection_title(self, product):
@@ -238,23 +253,6 @@ class AddressAdmin(admin.ModelAdmin):
     list_per_page = 10
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # from typing import Any
 
 # from django.contrib import admin, messages
@@ -269,10 +267,6 @@ class AddressAdmin(admin.ModelAdmin):
 
 # from . import models
 # from .models import ChatbotClient
-
-
-
-
 
 
 # class InventoryFilter(admin.SimpleListFilter):
@@ -298,7 +292,6 @@ class AddressAdmin(admin.ModelAdmin):
 #     list_filter = ('created_at',)
 #     ordering = ('-created_at',)
 #     readonly_fields = ('created_at', 'updated_at')
-
 
 
 # @admin.register(models.Product)
@@ -467,4 +460,3 @@ class AddressAdmin(admin.ModelAdmin):
 #     ]
 
 #     list_per_page = 10
-

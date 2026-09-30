@@ -22,6 +22,7 @@ from .filters import ProductFilter
 from .models import (
     Product,
     Collection,
+    ProductImage,
     Promotion,
     Customer,
     Order,
@@ -34,6 +35,7 @@ from .serializers import (
     AddCartitemSerializer,
     CollectionSerializer,
     CreateOrderSerializer,
+    ProductImageSerializer,
     ProductSerializer,
     ChatConversationSerializer,
     PromotionSerializer,
@@ -93,7 +95,7 @@ class ChatView(APIView):
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.prefetch_related('images').all()
     serializer_class = ProductSerializer
 
     filter_backends = [
@@ -364,4 +366,13 @@ class ReviewViewSet(ModelViewSet):
         return {
             "product_id": self.kwargs["product_pk"],
         }
-    
+
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+
+    def get_serializer_context(self):
+        return {'product_id': self.kwargs['product_pk']}
+
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs['product_pk'])

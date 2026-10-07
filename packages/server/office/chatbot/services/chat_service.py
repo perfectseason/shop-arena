@@ -9,7 +9,8 @@ def get_conversation_history(
 ) -> str:
 
     messages = conversation.messages.order_by(
-        "-created_at"
+        "-created_at",
+        "-id",
     )[:MAX_HISTORY_MESSAGES]
 
     messages = reversed(list(messages))

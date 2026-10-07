@@ -15,13 +15,9 @@ class ChatConversation(models.Model):
         db_index=True,
     )
 
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-    )
+    created_at = models.DateTimeField( auto_now_add=True,)
 
-    updated_at = models.DateTimeField(
-        auto_now=True,
-    )
+    updated_at = models.DateTimeField( auto_now=True, )
 
     class Meta:
         ordering = ["-updated_at"]
@@ -43,22 +39,13 @@ class ChatMessage(models.Model):
         ("bot", "Bot"),
     )
 
-    conversation = models.ForeignKey(
-        ChatConversation,
-        on_delete=models.CASCADE,
-        related_name="messages",
-    )
+    conversation = models.ForeignKey( ChatConversation, on_delete=models.CASCADE, related_name="messages", )
 
-    role = models.CharField(
-        max_length=10,
-        choices=ROLE_CHOICES,
-    )
+    role = models.CharField( max_length=10, choices=ROLE_CHOICES, )
 
     content = models.TextField()
 
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-    )
+    created_at = models.DateTimeField( auto_now_add=True, )
 
     class Meta:
         ordering = ["created_at"]

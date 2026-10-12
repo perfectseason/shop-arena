@@ -7,6 +7,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import (
     CreateModelMixin,
     DestroyModelMixin,
+    ListModelMixin,
     RetrieveModelMixin,
 )
 from rest_framework.pagination import PageNumberPagination
@@ -310,19 +311,32 @@ class OrderItemViewSet(ModelViewSet):
 
 
 class CartViewSet(
+    ListModelMixin,
     CreateModelMixin,
     RetrieveModelMixin,
     DestroyModelMixin,
     GenericViewSet,
 ):
+    # pylint: disable=no-member
     queryset = Cart.objects.prefetch_related(
         "items__product"
     ).all()
 
     serializer_class = CartSerializer
 
+    def get_queryset(self):
+        # A cart list must be limited to the signed-in customer's carts.
+        if not self.request.user.is_authenticated:
+            return Cart.objects.none()
+
+        return self.queryset.filter(
+            customer__user_id=self.request.user.id,
+        )
+
 
 class CartItemViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
     http_method_names = [
         "get",
         "post",
@@ -339,17 +353,42 @@ class CartItemViewSet(ModelViewSet):
 
         return CartItemSerializer
 
+    def get_cart_id(self, create=False):
+        customer = get_object_or_404(
+            Customer,
+            user_id=self.request.user.id,
+        )
+        cart_id = self.kwargs.get("cart_pk")
+        if cart_id:
+            return get_object_or_404(
+                Cart,
+                pk=cart_id,
+                customer=customer,
+            ).id
+        cart = Cart.objects.filter(
+            customer=customer,
+        ).order_by("-created_at").first()
+
+        if cart is None and create:
+            cart = Cart.objects.create(customer=customer)
+
+        return cart.id if cart else None
+
     def get_serializer_context(self):
         return {
-            "cart_id": self.kwargs["cart_pk"],
+            "cart_id": self.get_cart_id(
+                create=self.request.method == "POST",
+            ),
         }
 
     def get_queryset(self):
+        cart_id = self.get_cart_id()
+        if cart_id is None:
+            return CartItem.objects.none()
+
         return (
             CartItem.objects
-            .filter(
-                cart_id=self.kwargs["cart_pk"]
-            )
+            .filter(cart_id=cart_id)
             .select_related("product")
         )
 

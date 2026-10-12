@@ -37,6 +37,12 @@ router.register(
 )
 
 router.register(
+    "carts-items",
+    views.CartItemViewSet,
+    basename="carts-items",
+)
+
+router.register(
     "customer",
     views.CustomerViewSet,
 )

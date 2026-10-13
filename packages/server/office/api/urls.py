@@ -99,7 +99,10 @@ products_router.register(
 # ============================================================
 
 urlpatterns = (
-    router.urls
+    [
+        path("chatbot/clients/", views.ChatbotClientCreateView.as_view(), name="chatbot-client-create"),
+    ]
+    + router.urls
     + products_router.urls
     + carts_router.urls
 )

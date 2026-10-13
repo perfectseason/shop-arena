@@ -30,6 +30,7 @@ from .models import (
     OrderItem,
     Cart,
     CartItem,
+    ChatbotClient,
     Review,
 )
 from .serializers import (
@@ -39,6 +40,7 @@ from .serializers import (
     ProductImageSerializer,
     ProductSerializer,
     ChatConversationSerializer,
+    ChatbotClientSerializer,
     PromotionSerializer,
     CustomerSerializer,
     OrderSerializer,
@@ -55,8 +57,8 @@ from chatbot.services.chat_service import process_chat_message
 
 
 class ChatbotClientCreateView(generics.CreateAPIView):
-    queryset = ChatConversation.objects.all()
-    serializer_class = ChatConversationSerializer
+    queryset = ChatbotClient.objects.all()
+    serializer_class = ChatbotClientSerializer
 
 
 class ChatView(APIView):
@@ -77,10 +79,12 @@ class ChatView(APIView):
         if conversation_id:
             conversation = get_object_or_404(
                 ChatConversation,
-                pk=conversation_id,
+                conversation_id=conversation_id,
             )
         else:
-            conversation = ChatConversation.objects.create()
+            conversation = ChatConversation.objects.create(
+                conversation_id=conversation_id
+            ) if conversation_id else ChatConversation.objects.create()
 
         answer = process_chat_message(
             prompt=prompt,

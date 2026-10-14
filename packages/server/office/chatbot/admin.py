@@ -4,6 +4,7 @@ from .models import (
     ChatConversation,
     ChatMessage,
 )
+from .models import Appointment
 
 
 
@@ -107,4 +108,37 @@ class ChatMessageAdmin(
     )
     def short_content(self, obj):
         return obj.content[:80]
+    
+
+
+@admin.register(Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "email",
+        "phone",
+        "service",
+        "appointment_date",
+        "appointment_time",
+        "status",
+        "created_at",
+    )
+
+    list_filter = (
+        "status",
+        "service",
+        "appointment_date",
+    )
+
+    search_fields = (
+        "name",
+        "email",
+        "phone",
+        "service",
+    )
+
+    ordering = (
+        "appointment_date",
+        "appointment_time",
+    )
     

@@ -51,3 +51,45 @@ def process_chat_message(
     )
 
     return answer
+
+
+
+from .appointment_service import book_appointment
+
+
+def execute_appointment_booking(appointment_data):
+    """
+    Executes the appointment booking only after
+    the visitor has confirmed the appointment.
+    """
+
+    result = book_appointment(
+        name=appointment_data["name"],
+        email=appointment_data["email"],
+        phone=appointment_data.get("phone", ""),
+        service=appointment_data["service"],
+        appointment_date=appointment_data["appointment_date"],
+        appointment_time=appointment_data["appointment_time"],
+        notes=appointment_data.get("notes", ""),
+    )
+
+    if not result["success"]:
+        return {
+            "success": False,
+            "message": result["message"],
+            "errors": result.get("errors", {}),
+        }
+
+    appointment = result["appointment"]
+
+    return {
+        "success": True,
+        "message": (
+            f"Appointment confirmed successfully for "
+            f"{appointment.name} on "
+            f"{appointment.appointment_date} at "
+            f"{appointment.appointment_time}."
+        ),
+        "appointment_id": appointment.id,
+    }
+

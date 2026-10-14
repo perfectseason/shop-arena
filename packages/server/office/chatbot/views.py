@@ -4,6 +4,10 @@ import uuid
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import generics
+from .models import Appointment
+from .serializers import AppointmentSerializer
+from .services.appointment_service import book_appointment
 
 from .models import ChatConversation, ChatMessage
 from .services.chat_service import process_chat_message
@@ -124,3 +128,41 @@ class ChatConversationDetailView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+class AppointmentCreateView(generics.CreateAPIView):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
+
+    def create(self, request, *args, **kwargs):
+        result = book_appointment(
+            name=request.data.get("name"),
+            email=request.data.get("email"),
+            phone=request.data.get("phone", ""),
+            service=request.data.get("service"),
+            appointment_date=request.data.get("appointment_date"),
+            appointment_time=request.data.get("appointment_time"),
+            notes=request.data.get("notes", ""),
+        )
+
+        if not result["success"]:
+            return Response(
+                {
+                    "success": False,
+                    "message": result["message"],
+                    "errors": result.get("errors", {}),
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        serializer = self.get_serializer(result["appointment"])
+
+        return Response(
+            {
+                "success": True,
+                "message": "Appointment booked successfully.",
+                "appointment": serializer.data,
+            },
+            status=status.HTTP_201_CREATED,
+        )
+    

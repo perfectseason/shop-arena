@@ -1,6 +1,10 @@
 # About Shop Arena
 
-Shop arena is a Nigerian business, shop or store you can get or buy your daily needs from foods, fruits, beverages, gadgets and cleaning services.
+Shop arena is a Nigerian business, a subsidiary of perfect season global limited. A shop or store you can get or buy your daily needs from foods, fruits, beverages, gadgets and cleaning services also Modern Techology services.
+
+We are located in No 3, David street, Area 4 Garki Abuja, Nigeria.
+Our phone Numbers are: 234 810 697 8741, 234 805 857 0881
+email: perfectseasongloballtd@gmail.com, kelvofash833@gmail.com
 
 
 ## Our Our Store
@@ -38,7 +42,16 @@ Customers can contact our business for goods, services then quotations for techn
 
 ## Business Location
 
-Our business operates from Nigeria.
+We are located in No 3, David street, Area 4 Garki Abuja, Nigeria.
+Our phone Numbers are: 234 810 697 8741, 234 805 857 0881
+email: perfectseasongloballtd@gmail.com, kelvofash833@gmail.com
+
+
+
+## Business Contact
+
+Our phone Numbers are: 234 810 697 8741, 234 805 857 0881
+email: perfectseasongloballtd@gmail.com, kelvofash833@gmail.com
 
 
 

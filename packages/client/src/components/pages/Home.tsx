@@ -1,8 +1,8 @@
-import { useState, type CSSProperties, type SubmitEvent } from 'react';
+import { useState, type CSSProperties } from 'react';
 import useCart from '../../hooks/useCart';
 import { Button } from '../ui/button';
-import ChatBotForm from '../ui/ChatBotForm';
 import Carousel from '../ui/Carousel';
+import ChatBotForm from '../ui/ChatBotForm';
 
 type Product = {
    id: number;
@@ -11,6 +11,7 @@ type Product = {
    price: string;
 };
 
+// FEATURED PRODUCTS
 const featuredProducts: Product[] = [
    {
       id: 1,
@@ -32,6 +33,7 @@ const featuredProducts: Product[] = [
    },
 ];
 
+// ELECTRONICS
 const electronics: Product[] = [
    {
       id: 4,
@@ -59,6 +61,7 @@ const electronics: Product[] = [
    },
 ];
 
+// FASHION
 const fashion: Product[] = [
    {
       id: 8,
@@ -92,6 +95,7 @@ const fashion: Product[] = [
    },
 ];
 
+// HOME COLLECTION
 const homeCollection: Product[] = [
    {
       id: 13,
@@ -119,6 +123,7 @@ const carouselSlides = [
    { image: '/images/camera.jpg', alt: 'Camera collection' },
 ] as const;
 
+// PRODUCT CARD
 function ProductCard({
    product,
    onAddToCart,
@@ -130,15 +135,14 @@ function ProductCard({
 }) {
    return (
       <div className="w-full min-w-0 overflow-hidden rounded-xl bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-         {' '}
          <div className="aspect-square w-full overflow-hidden bg-gray-100">
-            {' '}
             <img
                src={product.image}
                alt={product.name}
                className="h-full w-full object-cover transition duration-500 hover:scale-105"
-            />{' '}
+            />
          </div>
+
          <div className="p-4">
             <h3 className="truncate text-lg font-semibold text-gray-900">
                {product.name}
@@ -161,18 +165,25 @@ function ProductCard({
    );
 }
 
+// HOME PAGE
 export default function Home() {
-   const { addToCart, isLoading, error } = useCart();
-   const [chatMessage, setChatMessage] = useState('');
-   const [chatResponse, setChatResponse] = useState(
-      'Hello! How can I help you?'
-   );
+   const { addToCart, error } = useCart();
+
+   // Track the specific product currently being added.
+   const [addingProductId, setAddingProductId] = useState<number | null>(null);
+
    const heroStyle: CSSProperties = {
       backgroundImage: "url('/images/fone.jpg')",
    };
 
    const handleAddToCart = async (product: Product) => {
-      await addToCart(product.id, 1);
+      setAddingProductId(product.id);
+
+      try {
+         await addToCart(product.id, 1);
+      } finally {
+         setAddingProductId(null);
+      }
    };
 
    const handleShopNow = () => {
@@ -181,29 +192,17 @@ export default function Home() {
       });
    };
 
-   const handleChatSubmit = (event: SubmitEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const message = chatMessage.trim();
-      if (!message) return;
-
-      setChatResponse(
-         'Thanks for your message. Our shopping assistant will help you shortly.'
-      );
-      setChatMessage('');
-   };
-
    return (
       <div className="w-full">
-         {/* HERO */}{' '}
+         {/* HERO */}
          <section className="relative min-h-screen w-full overflow-hidden">
-            {/* HERO IMAGE */}{' '}
             <div
-               className="absolute inset-0 bg-cover bg-center bg-no-repeat my-6 mx-4 rounded-sm"
+               className="absolute inset-0 my-6 mx-4 rounded-sm bg-cover bg-center bg-no-repeat"
                style={heroStyle}
             />
-            {/* HERO FADE / OVERLAY */}
+
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
-            {/* HERO CONTENT */}
+
             <div className="relative flex min-h-screen items-center p-6 sm:p-10 md:p-16 lg:p-24">
                <div className="w-full max-w-2xl text-white">
                   <p className="pt-1 text-sm font-medium uppercase tracking-widest sm:text-base">
@@ -229,80 +228,115 @@ export default function Home() {
                   </Button>
                </div>
             </div>
+
             <div className="mt-5 mb-5 w-full text-center text-xl font-bold uppercase tracking-wide text-slate-950 sm:text-2xl">
                THE LOWEST PRICE EVER
             </div>
          </section>
+
          <div>
-            <p className='text-center text-2xl font-bold uppercase tracking-wide text-slate-950 sm:text-3xl mb-4 mt-4'>
+            <p className="mb-4 mt-4 text-center text-2xl font-bold uppercase tracking-wide text-slate-950 sm:text-3xl">
                YOUR DREAM GADGETS
             </p>
          </div>
-         {/* Carousel */}
-           <section className="relative min-h-screen w-full overflow-hidden px-0 py-0 sm:px-0 md:px-0 lg:px-0">
-               <Carousel slides={carouselSlides} />
-           </section>
-         {/* FEATURED PRODUCTS - 3 COLUMNS */}
+
+         {/* CAROUSEL */}
+         <section className="relative h-[75vh] w-full overflow-hidden px-0 py-0 sm:px-0 md:px-0 lg:px-0">
+            <Carousel slides={carouselSlides} />
+         </section>
+
+         {/* FEATURED PRODUCTS */}
          <section
             id="featured-products"
             className="w-full bg-stone-50 px-2 py-8 sm:px-6 md:px-4 lg:px-5"
          >
+            {error && (
+               <p role="alert" className="mb-4 text-center text-red-700">
+                  {error}
+               </p>
+            )}
+
             <div>
                <h2 className="mb-4 text-center text-2xl font-bold text-yellow-200 sm:text-3xl dark:text-sky-200">
                   FEATURED PRODUCTS
                </h2>
             </div>
+
             <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                {featuredProducts.map((product) => (
-                  <div key={product.image} className="w-full min-w-0">
+                  <div key={product.id} className="w-full min-w-0">
                      <ProductCard
                         product={product}
                         onAddToCart={handleAddToCart}
-                        isAdding={isLoading}
+                        isAdding={addingProductId === product.id}
                      />
                   </div>
                ))}
             </div>
          </section>
-         {/* ELECTRONICS - 4 COLUMNS */}
+
+         {/* ELECTRONICS */}
          <section className="w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10">
-            <h2 className="mb-6 text-2xl font-bold sm:text-3xl">Electronics</h2>
+            <h2 className="mb-6 text-2xl font-bold sm:text-3xl">
+               Electronics
+            </h2>
 
             <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                {electronics.map((product) => (
-                  <div key={product.image} className="w-full min-w-0">
+                  <div key={product.id} className="w-full min-w-0">
                      <ProductCard
                         product={product}
                         onAddToCart={handleAddToCart}
-                        isAdding={isLoading}
+                        isAdding={addingProductId === product.id}
                      />
                   </div>
                ))}
             </div>
          </section>
-         {/* FASHION - 5 COLUMNS */}
+
+         {/* FASHION */}
          <section className="w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10">
-            <h2 className="mb-6 text-2xl font-bold sm:text-3xl">Fashion</h2>
+            <h2 className="mb-6 text-2xl font-bold sm:text-3xl">
+               Fashion
+            </h2>
 
             <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                {fashion.map((product) => (
-                  <div key={product.image} className="w-full min-w-0">
+                  <div key={product.id} className="w-full min-w-0">
                      <ProductCard
                         product={product}
                         onAddToCart={handleAddToCart}
-                        isAdding={isLoading}
+                        isAdding={addingProductId === product.id}
                      />
                   </div>
                ))}
             </div>
          </section>
-         {/* HOME COLLECTION - 3 PRODUCTS + CHATBOT */}
+
+         {/* HOME COLLECTION */}
          <section className="w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10">
-            
+            <h2 className="mb-6 text-2xl font-bold sm:text-3xl">
+               Home Collection
+            </h2>
+
+            <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+               {homeCollection.map((product) => (
+                  <div key={product.id} className="w-full min-w-0">
+                     <ProductCard
+                        product={product}
+                        onAddToCart={handleAddToCart}
+                        isAdding={addingProductId === product.id}
+                     />
+                  </div>
+               ))}
+            </div>
          </section>
-         <div className='mb-5 mt-5 w-full text-center text-xl font-bold uppercase tracking-wide text-slate-950 sm:text-2xl'>
-              <ChatBotForm />
+
+         {/* CHATBOT */}
+         <div className="mb-5 mt-5 w-full text-center text-xl font-bold uppercase tracking-wide text-slate-950 sm:text-2xl">
+            <ChatBotForm />
          </div>
       </div>
    );
 }
+

@@ -24,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from .env file
 load_dotenv(BASE_DIR / ".env")
+load_dotenv(BASE_DIR / "store" / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -171,7 +172,7 @@ SIMPLE_JWT = {
 
 DJOSER = {
     'SERIALIZERS': {
-        'user_create': 'core.serializers.UserCreateSerializers'
+        'user_create': 'core.serializers.UserCreateSerializer'
     },
     'current_user': 'core.serializers.UserSerializers',
 }
@@ -241,6 +242,10 @@ LOGGING = {
     },
 }
 
+
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
 

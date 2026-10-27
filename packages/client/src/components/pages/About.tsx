@@ -1,4 +1,4 @@
-import ChatBot from "./ChatBot";
+import { Link } from 'react-router-dom';
 
 const About = () => {
    return (
@@ -37,8 +37,11 @@ const About = () => {
                   </div>
                </div>
             </div>
-            <div>
-               <ChatBot />
+            <div className="mx-auto max-w-5xl px-6 pb-12">
+               <p className="text-gray-700">Want help from our customer service chatbot?</p>
+               <Link to="/" className="mt-3 inline-block rounded-lg bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-700">
+                  Go to the chat form
+               </Link>
             </div>
          </section>
       </>

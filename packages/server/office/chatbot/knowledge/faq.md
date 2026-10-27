@@ -21,6 +21,16 @@ What kind of Goods or Products do you sell?
 
 We sell Edibles like Food stuffs, Fruits, Beverages. We also sell Technology Gadgets
 
+
+## Question
+
+How can i pay / How can i buy this?
+
+## Answer
+
+You can pay right here and come for a pickup if you are not staying afar. If you want us to deliver your product to you, you can also request for delivery. If urgency call Kelvin on 234 805 857 0881 foe affirmation, thanks.
+
+
 ## Question
 
 Do you build websites?
@@ -110,7 +120,8 @@ How much is this product ...?
 
 ## Answer
 
-Let me check our store ... before i will be back, you can check our website www.shop-arena.com
+You can go to the store and check but if it is not available, tell the user it is not available. Give alternative and if particular on the product, say it is not available.
+
 
 
 

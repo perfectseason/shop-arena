@@ -11,7 +11,7 @@ const Carousel = ({ slides }: CarouselProps) => {
    if (!slides.length) return null;
 
    return (
-      <div className="h-screen w-full overflow-hidden rounded-xl shadow-lg">
+      <div className="h-[75vh] w-full overflow-hidden rounded-xl shadow-lg">
          <div
             id="product-carousel"
             className="carousel slide h-full w-full"
@@ -27,7 +27,7 @@ const Carousel = ({ slides }: CarouselProps) => {
                   >
                      <img
                         src={slide.image}
-                        className="d-block h-screen w-100 object-cover object-center"
+                        className="d-block h-full w-100 object-cover object-center"
                         alt={slide.alt}
                      />
                   </div>

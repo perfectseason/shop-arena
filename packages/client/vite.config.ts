@@ -7,7 +7,23 @@ export default defineConfig({
    plugins: [react(), tailwindcss()],
    server: {
       proxy: {
-         '/api': 'http://localhost:3000',
+         '/api': {
+            target: 'http://127.0.0.1:8000',
+            changeOrigin: true,
+         },
+         '/auth': {
+            target: 'http://127.0.0.1:8000',
+            changeOrigin: true,
+         },
+         // Forward Django's admin pages and their static assets through Vite.
+         '/admin': {
+            target: 'http://127.0.0.1:8000',
+            changeOrigin: true,
+         },
+         '/static': {
+            target: 'http://127.0.0.1:8000',
+            changeOrigin: true,
+         },
       },
    },
 });

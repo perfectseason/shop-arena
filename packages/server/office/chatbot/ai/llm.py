@@ -3,7 +3,6 @@ from openai import OpenAI
 from .config import (
     OPENAI_API_KEY,
     LLM_MODEL,
-    LLM_TEMPERATURE,
     LLM_MAX_OUTPUT_TOKENS,
 )
 from .prompts import SYSTEM_INSTRUCTIONS
@@ -52,7 +51,6 @@ CUSTOMER QUESTION:
         model=LLM_MODEL,
         instructions=SYSTEM_INSTRUCTIONS,
         input=user_input,
-        temperature=LLM_TEMPERATURE,
         max_output_tokens=LLM_MAX_OUTPUT_TOKENS,
     )
 

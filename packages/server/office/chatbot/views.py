@@ -1,6 +1,7 @@
 import logging
 import uuid
 
+from openai import APIConnectionError, AuthenticationError, RateLimitError
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,6 +12,7 @@ from .services.appointment_service import book_appointment
 
 from .models import ChatConversation, ChatMessage
 from .services.chat_service import process_chat_message
+from .ai.config import OPENAI_API_KEY
 
 # Django adds the `objects` manager to model classes at runtime.
 # pylint: disable=no-member
@@ -52,17 +54,37 @@ class ChatView(APIView):
                 prompt=prompt,
                 conversation=conversation,
             )
-        except Exception:
+        except Exception as error:
             logger.exception("Chatbot AI error")
+            error_message = (
+                "I'm sorry, I couldn't process your request right now. "
+                "Please try again."
+            )
+            if not OPENAI_API_KEY:
+                error_message = (
+                    "The chatbot AI key is not configured on the server. "
+                    "Please contact support."
+                )
+            elif isinstance(error, AuthenticationError):
+                error_message = (
+                    "The chatbot AI key was rejected. Please contact support."
+                )
+            elif isinstance(error, RateLimitError):
+                error_message = (
+                    "The chatbot AI service has reached its usage quota. "
+                    "Please try again later."
+                )
+            elif isinstance(error, APIConnectionError):
+                error_message = (
+                    "The chatbot AI service is temporarily unreachable. "
+                    "Please try again shortly."
+                )
             return Response(
                 {
-                    "message": (
-                        "I'm sorry, I couldn't process your request right now. "
-                        "Please try again."
-                    ),
+                    "message": error_message,
                     "conversationId": str(conversation.conversation_id),
                 },
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
             )
 
         # Persist both sides of the completed turn so later requests can

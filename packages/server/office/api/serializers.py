@@ -23,6 +23,13 @@ from .models import (
 )
 
 
+class ChatbotClientEmailField(serializers.EmailField):
+    def to_internal_value(self, data):
+        if isinstance(data, str):
+            data = data.strip().rstrip("?").strip()
+        return super().to_internal_value(data)
+
+
 # ============================================================
 # CHATBOT SERIALIZERS
 # ============================================================
@@ -67,10 +74,22 @@ class ChatConversationSerializer(serializers.ModelSerializer):
 
 
 class ChatbotClientSerializer(serializers.ModelSerializer):
+    # An existing client email identifies a returning chatbot visitor. The
+    # unique model constraint still protects the database; serializer-level
+    # uniqueness validation would incorrectly reject repeat submissions.
+    email = ChatbotClientEmailField(validators=[])
+
     class Meta:
         model = ChatbotClient
         fields = ["id", "name", "email", "phone"]
         read_only_fields = ["id"]
+
+    def create(self, validated_data):
+        email = validated_data.pop("email")
+        client = ChatbotClient.objects.filter(email__iexact=email).first()
+        if client:
+            return client
+        return ChatbotClient.objects.create(email=email, **validated_data)
 
 
 # ============================================================

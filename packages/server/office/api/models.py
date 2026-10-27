@@ -194,6 +194,11 @@ class ChatbotClient(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        # Clean up stray punctuation captured after an email address.
+        self.email = self.email.strip().rstrip("?").strip()
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return str(self.name)
 

@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import chat from '../../assets/chat.jpg';
+import apiClient from '../../services/api-client';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -46,39 +47,26 @@ const ChatBotForm = () => {
       setServerError('');
 
       try {
-         const response = await fetch(
-            'http://127.0.0.1:8000/api/chatbot/clients/',
-            {
-               method: 'POST',
-               headers: {
-                  'Content-Type': 'application/json',
-               },
-               body: JSON.stringify(data),
-            }
-         );
+         await apiClient.post('/chatbot/clients/', data);
 
-         const responseData = await response.json();
-
-         // Django validation/server error
-         if (!response.ok) {
-            throw new Error(
-               responseData.detail ||
-                  'Unable to submit your information.'
-            );
-         }
-
-         // Database save was successful
+         // Allow the chatbot page only after the server confirms the save.
+         sessionStorage.setItem('chatbot-client-submitted', 'true');
          reset();
 
-         // Redirect to React chatbot page
          navigate('/chatbot');
       } catch (error) {
          console.error('Chatbot form submission error:', error);
 
+         const responseData =
+            typeof error === 'object' && error !== null && 'response' in error
+               ? (error as { response?: { data?: { detail?: string; email?: string[]; name?: string[]; phone?: string[] } } }).response?.data
+               : undefined;
          setServerError(
-            error instanceof Error
-               ? error.message
-               : 'Something went wrong. Please try again.'
+            responseData?.detail ||
+               responseData?.email?.[0] ||
+               responseData?.name?.[0] ||
+               responseData?.phone?.[0] ||
+               (error instanceof Error ? error.message : 'Something went wrong. Please try again.')
          );
       } finally {
          setIsSubmitting(false);
